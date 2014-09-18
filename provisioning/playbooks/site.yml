@@ -7,12 +7,29 @@
     rbenv_command: "{{ vagrant_home }}/.rbenv/bin/rbenv"
   tasks:
     - name: install packages
-      apt: name={{item.name}} update_cache=yes
+      apt: name={{item}} update_cache=yes
       with_items:
-        - { name: 'build-essential' }
-        - { name: 'git' }
-        - { name: 'libssl-dev' }
-        - { name: 'libqt4-dev' }
+        - build-essential
+        - git
+        - git-core
+        - libssl-dev
+        - libqt4-dev
+        - libc6-dev
+        - automake
+        - libtool
+        - libyaml-dev
+        - zlib1g
+        - zlib1g-dev
+        - openssl
+        - libssl-dev
+        - libreadline-dev
+        - libxml2-dev
+        - libxslt1-dev
+        - ncurses-dev
+        - pkg-config
+        - chrpath
+        - libfontconfig1-dev
+        - libxft-dev
 
     - name: install rbenv
       git: repo=https://github.com/sstephenson/rbenv.git
@@ -35,3 +52,15 @@
 
     - name: change ~/.rbenv owner to vagrant
       command: chown vagrant:vagrant -R {{ vagrant_home }}/.rbenv
+
+    - name: checkout phantomjs source
+      git: repo=https://github.com/ariya/phantomjs.git
+           dest={{ vagrant_home }}/phantomjs
+           version=1.9
+
+    - name: install phantomjs
+      shell: "cd {{ vagrant_home }}/phantomjs; echo y |./build.sh"
+
+    - name: make symbolic link for phantomjs
+      file: src=/home/vagrant/phantomjs/bin/phantomjs dest=/usr/bin/phantomjs state=link
+
