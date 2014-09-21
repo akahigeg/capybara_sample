@@ -3,6 +3,11 @@
 require 'spec_helper'
 
 describe "first page", :type => :feature do
+  after do
+    Capybara.reset_sessions!
+    Capybara.use_default_driver
+  end
+    
   it "Just visit" do
     visit "http://higelog.brassworks.jp/"
     expect(page).to have_content('ひげろぐ')
@@ -10,7 +15,7 @@ describe "first page", :type => :feature do
 
   it "Click link" do
     visit "http://higelog.brassworks.jp/"
-    click_link("Chefでrbenvを使ってRubyをインストールするCookbookを書いた")
+    first(:link, "Chefでrbenvを使ってRubyをインストールするCookbookを書いた")
     expect(page).to have_content('rbenv-install-rubies')
   end
 end
