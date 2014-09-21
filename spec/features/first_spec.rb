@@ -9,12 +9,12 @@ describe "first page", :type => :feature do
   end
     
   it "Just visit" do
-    visit "http://higelog.brassworks.jp/"
+    visit "/"
     expect(page).to have_content('ひげろぐ')
   end
 
   it "Click link" do
-    visit "http://higelog.brassworks.jp/"
+    visit "/"
     first(:link, "Chefでrbenvを使ってRubyをインストールするCookbookを書いた")
     expect(page).to have_content('rbenv-install-rubies')
   end
